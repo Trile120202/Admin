@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Typography, Container, Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
@@ -9,10 +12,9 @@ const ProductList = () => {
         const fetchProducts = async () => {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/products`);
-                console.log('Fetched products:', res.data); // Log dữ liệu sản phẩm trả về từ API
                 setProducts(res.data);
             } catch (err) {
-                console.log('Error fetching products:', err); // Log lỗi nếu có
+                console.log('Error fetching products:', err);
             }
         };
         fetchProducts();
@@ -23,28 +25,41 @@ const ProductList = () => {
             await axios.delete(`${process.env.REACT_APP_API_URL}/api/products/${id}`);
             setProducts(products.filter((product) => product._id !== id));
         } catch (err) {
-            console.log('Error deleting product:', err); // Log lỗi nếu có
+            console.log('Error deleting product:', err);
         }
     };
 
     return (
-        <div>
-            <h1>Product List</h1>
-            <Link to="/add-product">Add Product</Link>
-            <ul>
+        <Container>
+            <Typography variant="h4" gutterBottom>
+                Product List
+            </Typography>
+            <Button variant="contained" color="primary" component={Link} to="/add-product">
+                Add Product
+            </Button>
+            <List>
                 {products.length > 0 ? (
                     products.map((product) => (
-                        <li key={product._id}>
-                            {product.name}
-                            <button onClick={() => handleDelete(product._id)}>Delete</button>
-                            <Link to={`/edit-product/${product._id}`}>Edit</Link>
-                        </li>
+                        <ListItem key={product._id} divider>
+                            <ListItemText
+                                primary={product.name}
+                                secondary={product.category}
+                            />
+                            <ListItemSecondaryAction>
+                                <IconButton edge="end" aria-label="edit" component={Link} to={`/edit-product/${product._id}`}>
+                                    <EditIcon />
+                                </IconButton>
+                                <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(product._id)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
                     ))
                 ) : (
-                    <p>No products found</p> // Hiển thị thông báo khi không có sản phẩm
+                    <Typography variant="body1">No products found</Typography>
                 )}
-            </ul>
-        </div>
+            </List>
+        </Container>
     );
 };
 
