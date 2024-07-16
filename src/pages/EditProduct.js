@@ -21,7 +21,7 @@ const EditProduct = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    axios.put(`http://localhost:3000/api/products/${id}`, { name, price, description })
+    axios.put(`http://localhost:3000/product/get-/${id}`, { name, price, description })
       .then(() => navigate('/'))
       .catch(error => console.error(error));
   };

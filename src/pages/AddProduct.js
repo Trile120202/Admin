@@ -10,7 +10,7 @@ const AddProduct = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    axios.post('http://localhost:3000/api/products', { name, price, description })
+    axios.post('http://localhost:3000/product/create', { name, price, description })
       .then(() => navigate('/'))
       .catch(error => console.error(error));
   };

@@ -11,7 +11,7 @@ const ProductForm = () => {
         title: '',
         category: '',
         imageUrl: [''],
-        oldPrice: '',
+        oldPrice:'',
         price: '',
         description: ''
     });

@@ -11,7 +11,7 @@ const ProductList = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/products`);
+                const res = await axios.get(`${process.env.REACT_APP_API_URL}/product/get-list-product`);
                 setProducts(res.data);
             } catch (err) {
                 console.log('Error fetching products:', err);
@@ -22,7 +22,7 @@ const ProductList = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/api/products/${id}`);
+            await axios.delete(`${process.env.REACT_APP_API_URL}/product/delete/${id}`);
             setProducts(products.filter((product) => product._id !== id));
         } catch (err) {
             console.log('Error deleting product:', err);
